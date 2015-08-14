@@ -9,40 +9,43 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import com.richardhell.petclinic.dao.PersonaDAO;
 import com.richardhell.petclinic.model.Persona;
+import com.richardhell.petclinic.model.Propietario;
 
 @Repository
-public class PersonaDAOH extends HibernateTemplate implements PersonaDAO{
+public class PersonaDAOH extends HibernateTemplate implements PersonaDAO {
 
     @Autowired
-    public PersonaDAOH(SessionFactory sessionFactory){
+    public PersonaDAOH(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
-    public Persona find(Persona t){
+    public Persona find(Persona t) {
         Criteria criteria = this.getSession().createCriteria(Persona.class);
         criteria.add(Restrictions.eq("id", t.getId()));
         return (Persona) criteria.uniqueResult();
     }
 
     @Override
-    public List<Persona> all(){
+    public List<Persona> all() {
         Criteria criteria = this.getSession().createCriteria(Persona.class);
         return criteria.list();
     }
 
     @Override
-    public void saveDAO(Persona t){
+    public void saveDAO(Persona t) {
         this.save(t);
     }
 
     @Override
-    public void updateDAO(Persona t){
+    public void updateDAO(Persona t) {
         this.merge(t);
     }
 
     @Override
-    public void deleteDAO(Persona t){
+    public void deleteDAO(Persona t) {
         this.delete(t);
-    }
+    } 
+
+
 }
