@@ -32,33 +32,58 @@ public class PropietarioController {
 
     @Autowired
     PropietarioDAO propietarioDAO;
-    
+
     @Autowired
     PersonaDAO personaDAO;
-    
-    @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(true);
-        webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-    }
-    
-     @RequestMapping(method = RequestMethod.GET)
+
+    @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
 
-        model.addAttribute("propietario", propietarioDAO.all());
+        model.addAttribute("propietarios", propietarioDAO.all());
         return "comercial/cliente/propietario";
     }
-    
-    @RequestMapping("list/{persona}")
-    public String list(@PathVariable("persona") Long persona, Model model) {
 
-        Persona per = personaDAO.find(new Persona(persona));
+    @RequestMapping("new")
+    public String create(Model model) {
 
-        model.addAttribute("persona", per);
-        model.addAttribute("propietario", personaDAO.find(per));
-        return "comercial/cliente/mascota";
+        model.addAttribute("propietario", new Propietario());
+        model.addAttribute("persona", new Persona());
+        return "comercial/cliente/propietarioForm";
     }
 
+    @RequestMapping("update/{id}")
+    public String update(@PathVariable("id") Long id, Model model) {
+
+        Propietario pro = propietarioDAO.find(new Propietario(id));
+        model.addAttribute("propietario", pro);
+        model.addAttribute("persona", pro.getPersona());
+        return "comercial/cliente/propietarioForm";
+    }
+
+    @RequestMapping("save")
+    public String save(Propietario pro) {
+
+        if (pro.getId() == null) {
+            Persona persona = pro.getPersona();
+            personaDAO.saveDAO(persona);
+
+            pro.setFechaRegistro(new Date());
+            propietarioDAO.saveDAO(pro);
+        } else {
+
+            Persona persona = pro.getPersona();
+            personaDAO.updateDAO(persona);
+
+        }
+        return "redirect:/com/propietario";
+    }
+    
+    
+    @RequestMapping("delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+
+        propietarioDAO.deleteDAO(new Propietario(id));
+        return "redirect:/com/propietario";
+    }
 
 }
