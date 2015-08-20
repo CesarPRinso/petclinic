@@ -47,8 +47,8 @@
                     </span>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/com/propietario/update/${e.id}">Editar</a> 
-                    <a href="${pageContext.request.contextPath}/com/propietario/delete/${e.id}">Eliminar</a>
+                    <a href="${pageContext.request.contextPath}/com/atencion/update/${e.id}">Editar</a> 
+                    <a href="${pageContext.request.contextPath}/com/atencion/delete/${e.id}">Eliminar</a>
                 </td>
             </tr>
         </c:forEach>
