@@ -24,11 +24,11 @@ public class Visita implements Serializable {
     private Long id;
 
     @Column(name = "fecha_ingreso")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
 
     @Column(name = "fecha_salida")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fechaSalida;
 
     @Column(name = "motivo")

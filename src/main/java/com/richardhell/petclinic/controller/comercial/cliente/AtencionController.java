@@ -7,11 +7,15 @@ package com.richardhell.petclinic.controller.comercial.cliente;
 
 import com.richardhell.petclinic.dao.*;
 import com.richardhell.petclinic.model.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +40,13 @@ public class AtencionController {
 
     @Autowired
     VisitaDAO visitaDao;
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -80,6 +91,22 @@ public class AtencionController {
         } else {
             visitaDao.updateDAO(visita);
         }
+        return "redirect:/com/atencion";
+    }
+
+    @RequestMapping("salida")
+    public String salida(@ModelAttribute("atencion") Visita visita) {
+
+        if (visita.getId() == null) {
+            Date date = new Date();
+            visita.setFechaIngreso(date);
+            visitaDao.saveDAO(visita);
+        } else {
+            visita.setFinalizado(true);
+            visitaDao.updateDAO(visita);
+            visitaDao.updateDAO(visita);
+        }
+
         return "redirect:/com/atencion";
     }
 

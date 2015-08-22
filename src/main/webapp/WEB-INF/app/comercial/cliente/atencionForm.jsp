@@ -31,6 +31,11 @@
         <div class="form-group">
             <label class="control-label"> Motivo </label>
             <input type="text" class="form-control" name="motivo" value="${atencion.motivo}" required="">
+        </div>    
+        
+        <div class="form-group">
+            <label class="control-label"> Fecha de proxima Visita </label>
+            <input type="date" class="form-control" name="proximaVisita" value="${atencion.proximaVisita}" required="">
         </div>
 
         <div class="form-group">
@@ -48,10 +53,6 @@
             <input type="text" class="form-control" name="dieta" value="${atencion.dieta}" required="">
         </div>
 
-        <div class="form-group">
-            <label class="control-label"> Proxima Visita </label>
-            <input type="date" class="form-control" name="proximaVisita" value="${atencion.proximaVisita}" >
-        </div>
 
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Guardar</button>

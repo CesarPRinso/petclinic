@@ -28,7 +28,7 @@
                             Diagnostico : ${e.diagnostico}<br/>
                             Tratamiento : ${e.tratamiento}<br>
                             Dieta :  ${e.dieta}<br>                            
-                            ${e.finalizado}
+                            Proxima Visita : ${e.proximaVisita}
                         </div>
                         <div class="col-md-6">
 
@@ -49,6 +49,7 @@
                 <td>
                     <a href="${pageContext.request.contextPath}/com/atencion/update/${e.id}">Editar</a> 
                     <a href="${pageContext.request.contextPath}/com/atencion/delete/${e.id}">Eliminar</a>
+                    <a href="${pageContext.request.contextPath}/com/atencion/salida/${e.id}">Salida</a>
                 </td>
             </tr>
         </c:forEach>
