@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -34,12 +35,14 @@ public class AtencionController {
 
     @Autowired
     MascotaDAO mascotaDAO;
-
     @Autowired
     VeterinarioDAO veterinarioDAO;
-
     @Autowired
     VisitaDAO visitaDao;
+    
+
+    @Autowired
+    AtencionService service;
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
@@ -83,31 +86,35 @@ public class AtencionController {
 
     @RequestMapping("save")
     public String save(@ModelAttribute("atencion") Visita visita) {
+        
+          Date date = new Date();
+          visita.setFechaIngreso(date);
 
-        if (visita.getId() == null) {
-            Date date = new Date();
-            visita.setFechaIngreso(date);
+        if (visita.getId() == null) {           
+          
             visitaDao.saveDAO(visita);
+            
         } else {
             visitaDao.updateDAO(visita);
         }
         return "redirect:/com/atencion";
     }
 
-    @RequestMapping("salida")
-    public String salida(@ModelAttribute("atencion") Visita visita) {
+    @RequestMapping("salida/{id}")
+    public String salida(@PathVariable("id") Long id, Model model) {
 
-        if (visita.getId() == null) {
+        Visita visita = service.findVisita(new Visita(id));
+        model.addAttribute("visita", visita);
+        System.out.println(visita);
+
+        if (visita.getFechaSalida() == null) {            
             Date date = new Date();
-            visita.setFechaIngreso(date);
-            visitaDao.saveDAO(visita);
-        } else {
-            visita.setFinalizado(true);
-            visitaDao.updateDAO(visita);
-            visitaDao.updateDAO(visita);
+            visita.setFechaSalida(date);  
+            visita.setFinalizado(false);
+            return "redirect:/com/atencion";            
         }
 
-        return "redirect:/com/atencion";
-    }
 
+        return"redirect:/com/atencion";
+    }
 }
