@@ -42,14 +42,15 @@
                     Fecha de Salida: <fmt:formatDate value="${e.fechaSalida}" pattern="dd/MM/yyyy" /> <br/>
                 </td>  
                 <td>
-                    <span class="label label-${e.finalizado  ? "success" :"danger" }">
-                        ${e.finalizado ? "Finalizado" :"Tratamiento" }
+                    <span class="label label-${e.fechaSalida == null ? 'info': 'danger' }">
+                        ${e.fechaSalida == null ? "Tratamiento" :"Finalizado" }
                     </span>
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/com/atencion/update/${e.id}">Editar</a> 
-                    <a href="${pageContext.request.contextPath}/com/atencion/delete/${e.id}">Eliminar</a>
-                    <a href="${pageContext.request.contextPath}/com/atencion/salida/${e.id}">Salida</a>
+                    <a href="${pageContext.request.contextPath}/com/atencion/delete/${e.id}">Eliminar</a>  
+                    <a href="${pageContext.request.contextPath}/com/atencion/salida/${e.id}" >Salida</a>
+
                 </td>
             </tr>
         </c:forEach>

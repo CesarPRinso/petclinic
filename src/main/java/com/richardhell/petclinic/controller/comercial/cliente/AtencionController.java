@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @Transactional
-@SessionAttributes("propietario")
+@SessionAttributes("atencion")
 @RequestMapping("com/atencion")
 public class AtencionController {
 
@@ -39,7 +39,6 @@ public class AtencionController {
     VeterinarioDAO veterinarioDAO;
     @Autowired
     VisitaDAO visitaDao;
-    
 
     @Autowired
     AtencionService service;
@@ -76,26 +75,28 @@ public class AtencionController {
 
     @RequestMapping("update/{id}")
     public String update(@PathVariable("id") Long id, Model model) {
-
+        
+        Visita visita = service.findVisita(new Visita(id));
+        
         model.addAttribute("veterinarios", veterinarioDAO.all());
         model.addAttribute("mascotas", mascotaDAO.all());
-        model.addAttribute("atencion", visitaDao.find(new Visita(id)));
+        model.addAttribute("atencion", visita);
         return "comercial/cliente/atencionForm";
 
     }
 
     @RequestMapping("save")
-    public String save(@ModelAttribute("atencion") Visita visita) {
+    public String save( @ModelAttribute("atencion") Visita atencion) {
         
-          Date date = new Date();
-          visita.setFechaIngreso(date);
 
-        if (visita.getId() == null) {           
-          
-            visitaDao.saveDAO(visita);
-            
+        if (atencion.getId() == null) {
+
+            atencion.setFechaIngreso(new Date());
+            visitaDao.saveDAO(atencion);
+
         } else {
-            visitaDao.updateDAO(visita);
+                
+            visitaDao.updateDAO(atencion);
         }
         return "redirect:/com/atencion";
     }
@@ -105,16 +106,15 @@ public class AtencionController {
 
         Visita visita = service.findVisita(new Visita(id));
         model.addAttribute("visita", visita);
-        System.out.println(visita);
 
-        if (visita.getFechaSalida() == null) {            
+        if (visita.getFechaSalida() == null) {
             Date date = new Date();
-            visita.setFechaSalida(date);  
-            visita.setFinalizado(false);
-            return "redirect:/com/atencion";            
+            visita.setFechaSalida(date);
+            visita.setFinalizado(true);
+            return "redirect:/com/atencion";
         }
 
+        return "redirect:/com/atencion";
 
-        return"redirect:/com/atencion";
     }
 }

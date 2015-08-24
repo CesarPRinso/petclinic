@@ -52,8 +52,7 @@
             <label class="control-label"> Dieta </label>
             <input type="text" class="form-control" name="dieta" value="${atencion.dieta}" required="">
         </div>
-
-
+        <input type="hidden" name="finalizado" value="false"/>
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="${pageContext.request.contextPath}/com/atencion" class="btn btn-link">Cancelar</a>
