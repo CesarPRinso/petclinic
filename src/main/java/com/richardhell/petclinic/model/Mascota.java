@@ -4,6 +4,7 @@ import com.richardhell.petclinic.helper.TypesUtil;
 import java.util.Date;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -53,6 +55,9 @@ public class Mascota implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_raza")
     private Raza raza;
+    
+    @OneToMany(mappedBy = "mascota", fetch = FetchType.LAZY)
+    private List<Detalle> detalles;
 
     public Mascota() {
     }
@@ -140,5 +145,15 @@ public class Mascota implements Serializable {
     public void setRaza(Raza raza) {
         this.raza = raza;
     }
+
+    public List<Detalle> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<Detalle> detalles) {
+        this.detalles = detalles;
+    }
+    
+    
 
 }
